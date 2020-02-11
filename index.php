@@ -5,7 +5,7 @@
     <script charset="utf-8" src="/practice.js" ></script>
 </head>
 <body>
-
+    <p><a href="/form.php">회원가입</a></p>
 
 </body>
 </html>
