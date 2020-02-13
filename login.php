@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-$conn = mysqli_connect("localhost", "root", "wlghcjs1", "practice");
+include 'connect.php';
 $name = $_POST['name']; // 아이디
 $password = $_POST['password']; // 패스워드
 

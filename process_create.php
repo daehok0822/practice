@@ -1,9 +1,5 @@
 <?php
-$conn = mysqli_connect(
-    'localhost',
-    'root',
-    'wlghcjs1',
-    'article');
+include 'connect.php';
 $sql = "
   INSERT INTO article
     (title, description, pub_date)
