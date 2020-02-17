@@ -29,15 +29,25 @@ if(isset($_GET['id'])){
     $result = mysqli_query($conn, $sql);
     $list2 = '';
     while ($row = mysqli_fetch_array($result)) {
-        $list2 .= "<a href='index.php?id={$row['parant_id']} & id2={$row['id']}'>{$row['name']}</a>";
+        $list2 .= '<input type="checkbox" name="checkbox[]" value="'.$row['id'].'" >'.$row['name'];
     }
-//    if(isset($_GET['id2'])){
-//        $sql = "SELECT * FROM ariticle where parant_id = {$_GET['id']}";
-//    }
+
 }
+if(isset($_POST['checkbox'])) {
+    $sql = "SELECT title, description FROM article LEFT JOIN art_cat ON article.id = art_id
+        LEFT JOIN category ON cat_id = category.id ";
+    $where = " where 1=1 ";
 
+    for ($i = 0; $i < count($_POST['checkbox']); $i++) {
+        $where .= " and category.id = {$_POST['checkbox'][$i]}";
+    }
 
-
+    $sql .= $where;
+    $result = mysqli_query($conn, $sql);
+    while ($row = mysqli_fetch_array($result)) {
+        $list3 .= '<p>'.$row['title'] .'<br>'. $row['description'].'</p>';
+    }
+}
 ?>
 
 
@@ -103,9 +113,11 @@ if(isset($_GET['id'])){
         <?= $list; ?>
     </ul>
     <div>
-        <?= $list2; ?>
-        <h2>게임이름</h2>
-        <p>내용</p>
+        <form action="index.php" method="post">
+            <?= $list2;?>
+            <input type="submit">
+        </form>
+        <?= $list3;?>
     </div>
 </div>
 </body>

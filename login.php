@@ -11,6 +11,7 @@ $row = mysqli_fetch_array($result);
 if($name==$row['name'] && $password==$row['password']) {
     echo "<script>alert(\"로그인 성공\");</script>";
     $_SESSION['name'] = $name;
+    $_SESSION['id'] = $row['id'];
     $_SESSION['is_login'] = true;
     echo "<script>location.href='/index.php';</script>";
 } else {

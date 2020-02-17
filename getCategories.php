@@ -1,5 +1,5 @@
 <?php
-include "config.php";
+include "connect.php";
 
 $bigcatid = $_POST['big_id'];   // department id
 
@@ -12,7 +12,6 @@ $users_arr = array();
 while( $row = mysqli_fetch_array($result) ){
     $id = $row['id'];
     $name = $row['name'];
-
     $users_arr[] = array("id" => $id, "name" => $name);
 }
 

@@ -1,9 +1,12 @@
 <?php
+session_start();
 include 'connect.php';
+
 $sql = "
   INSERT INTO article
-    (title, description, pub_date)
+    (user_id, title, description, pub_date)
     VALUES(
+        '".$_SESSION['id']."',
         '{$_POST['title']}',
         '{$_POST['description']}',
         NOW()
@@ -15,5 +18,16 @@ if($result === false){
     error_log(mysqli_error($conn));
 } else {
     echo '성공했습니다. <a href="index.php">돌아가기</a>';
+    $last_uid = mysqli_insert_id($conn);
+    foreach ($_POST['cat_id'] as $item) {
+        $sql = "
+      INSERT INTO art_cat(art_id, cat_id)
+      VALUES($last_uid, $item)";
+        $result = mysqli_query($conn, $sql);
+    }
+
 }
-?>
+
+
+
+

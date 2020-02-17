@@ -38,11 +38,12 @@ location.href = 'loginform.php';
     }
     ?>
 </select>
-<select id="small_cat">
-    <option value="0">- Select -</option>
-</select>
+
 
 <form action="process_create.php" method="POST">
+    <p><select id="small_cat" name ="cat_id[]" multiple="multiple">
+            <option value="0">- Select -</option>
+        </select></p>
     <p><input type="text" name="title" placeholder="title"></p>
     <p><textarea name="description" placeholder="description"></textarea></p>
     <p><input type="submit"></p>
@@ -60,7 +61,6 @@ location.href = 'loginform.php';
                 success:function(response){
 
                     var len = response.length;
-                    document.write(len);
                     $("#small_cat").empty();
                     for( var i = 0; i<len; i++){
                         var id = response[i]['id'];
