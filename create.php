@@ -9,6 +9,8 @@ location.href = 'loginform.php';
 </script>
 <?php
     exit;}
+
+
 ?>
 
 

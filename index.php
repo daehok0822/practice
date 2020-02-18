@@ -25,12 +25,22 @@ while ($row = mysqli_fetch_array($result)) {
 }
 
 if(isset($_GET['id'])){
-    $sql = "SELECT * FROM category where parant_id = {$_GET['id']}";
-    $result = mysqli_query($conn, $sql);
-    $list2 = '';
-    while ($row = mysqli_fetch_array($result)) {
-        $list2 .= '<input type="checkbox" name="checkbox[]" value="'.$row['id'].'" >'.$row['name'];
+
+//    $where = "where parant_id = {$_GET['id']}";
+    $cat_array = array();
+    $cat_message = array('테마','게임 디자인','게임 플레이');
+    for ($i = 0; $i < 3; $i++){
+        $sql = "SELECT * FROM category where parant_id = {$_GET['id']} and division = $i+1";
+        $result = mysqli_query($conn, $sql);
+        $list2 = '';
+        while ($row = mysqli_fetch_array($result)) {
+            $list2 .= '<input type="checkbox" name="checkbox[]" value="'.$row['id'].'" >'.$row['name'];
+        }
+        $cat_array[$i] = $cat_message[$i].'<br>'.$list2;
     }
+
+
+
 
 }
 if(isset($_POST['checkbox'])) {
@@ -44,8 +54,9 @@ if(isset($_POST['checkbox'])) {
 
     $sql .= $where;
     $result = mysqli_query($conn, $sql);
+    $list3 = '';
     while ($row = mysqli_fetch_array($result)) {
-        $list3 .= '<p>'.$row['title'] .'<br>'. $row['description'].'</p>';
+        $list3 .= '<p><h2>'.$row['title']."</h2><div class='articlefix'><a href='create.php?id2={$row['id']}'>글수정</a></div>". $row['description'].'</p>';
     }
 }
 ?>
@@ -91,6 +102,10 @@ if(isset($_POST['checkbox'])) {
             display: grid;
             grid-template-columns: 150px 1fr;
         }
+        .articlefix{
+            text-align:right;
+        }
+
     </style>
 </head>
 <body>
@@ -100,7 +115,7 @@ if(isset($_POST['checkbox'])) {
     </p>
     <p>
         <a href="./create.php">글쓰기</a>
-        <a href="./logout.php">글수정</a>
+        <a href="./update.php">글수정</a>
         <a href="./logout.php">글삭제</a>
         <?php foreach ($products as $item) {
             echo $item . " ";
@@ -114,7 +129,9 @@ if(isset($_POST['checkbox'])) {
     </ul>
     <div>
         <form action="index.php" method="post">
-            <?= $list2;?>
+            <?= $cat_array[0];?><br>
+            <?= $cat_array[1];?><br>
+            <?= $cat_array[2];?><br>
             <input type="submit">
         </form>
         <?= $list3;?>
