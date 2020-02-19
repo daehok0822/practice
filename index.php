@@ -44,7 +44,8 @@ if(isset($_GET['id'])){
 
 }
 if(isset($_POST['checkbox'])) {
-    $sql = "SELECT title, description FROM article LEFT JOIN art_cat ON article.id = art_id
+    $sql = "SELECT article.
+id, title, description FROM article LEFT JOIN art_cat ON article.id = art_id
         LEFT JOIN category ON cat_id = category.id ";
     $where = " where 1=1 ";
 

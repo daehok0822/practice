@@ -1,19 +1,41 @@
 <?php
 include 'connect.php';
 session_start();
-if (!isset($_SESSION['is_login'])) {
+
+if (empty($_SESSION['is_login'])) {
 //header('Location: ./loginform.php');
 ?>
-<script>alert('로그인 해 주세요');
-location.href = 'loginform.php';
+<script>
+    alert('로그인 해 주세요');
+    location.href = 'loginform.php';
 </script>
 <?php
-    exit;}
+    exit;
+}
+$sql = "SELECT title, description FROM article where id = {$_GET['id2']}";
+$result = mysqli_query($conn, $sql);
+$row = mysqli_fetch_array($result);
+if(isset($_GET['id2'])){
+/*    ?>
+<input type="ddd" value="<?=$row['title']?>">
+<?php
+*/
+    $text ='<p><input type="text" name="title" value="'.$row['title'].'"></p>
+    <p><textarea name="description">'.$row['description'].'</textarea></p>
+     <input type="hidden" name="id" value="'.$_GET['id2'].'">';
+
+} else{
+    $text ='<p><input type="text" name="title" placeholder="title"></p>
+    <p><textarea name="description" placeholder="description"></textarea></p>';
+}
+
+
+
+
+
 
 
 ?>
-
-
 <!doctype html>
 <html>
 <head>
@@ -46,8 +68,7 @@ location.href = 'loginform.php';
     <p><select id="small_cat" name ="cat_id[]" multiple="multiple">
             <option value="0">- Select -</option>
         </select></p>
-    <p><input type="text" name="title" placeholder="title"></p>
-    <p><textarea name="description" placeholder="description"></textarea></p>
+    <?=$text;?>
     <p><input type="submit"></p>
 </form>
 

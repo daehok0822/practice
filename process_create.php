@@ -2,16 +2,27 @@
 session_start();
 include 'connect.php';
 
-$sql = "
-  INSERT INTO article
-    (user_id, title, description, pub_date)
-    VALUES(
-        '".$_SESSION['id']."',
-        '{$_POST['title']}',
-        '{$_POST['description']}',
-        NOW()
-    )
+if($_POST['id']){
+    $sql = "
+  UPDATE article
+    SET
+      title = '{$_POST['title']}',
+      description = '{$_POST['description']}'
+    WHERE
+      id = {$_POST['id']}
 ";
+} else{
+    $sql = "
+      INSERT INTO article
+        (user_id, title, description, pub_date)
+        VALUES(
+            '".$_SESSION['id']."',
+            '{$_POST['title']}',
+            '{$_POST['description']}',
+            NOW()
+        )
+    ";}
+
 $result = mysqli_query($conn, $sql);
 if($result === false){
     echo '저장하는 과정에서 문제가 생겼습니다. 관리자에게 문의해주세요';
