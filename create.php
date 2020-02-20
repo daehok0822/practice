@@ -22,7 +22,7 @@ if(isset($_GET['id2'])){
 */
     $text ='<p><input type="text" name="title" value="'.$row['title'].'"></p>
     <p><textarea name="description">'.$row['description'].'</textarea></p>
-     <input type="hidden" name="id" value="'.$_GET['id2'].'">';
+     <input type="hidden" name="id2" value="'.$_GET['id2'].'">';
 
 } else{
     $text ='<p><input type="text" name="title" placeholder="title"></p>
@@ -65,10 +65,10 @@ if(isset($_GET['id2'])){
 
 
 <form action="process_create.php" method="POST">
-    <p><select id="small_cat" name ="cat_id[]" multiple="multiple">
+    <p><select id="small_cat" name="cat_id[]" multiple="multiple">
             <option value="0">- Select -</option>
         </select></p>
-    <?=$text;?>
+    <?= $text; ?>
     <p><input type="submit"></p>
 </form>
 

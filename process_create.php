@@ -1,15 +1,15 @@
 <?php
 session_start();
 include 'connect.php';
-
-if($_POST['id']){
+var_dump($_POST['id2']);
+if($_POST['id2']){
     $sql = "
   UPDATE article
     SET
       title = '{$_POST['title']}',
       description = '{$_POST['description']}'
     WHERE
-      id = {$_POST['id']}
+      id = {$_POST['id2']}
 ";
 } else{
     $sql = "
