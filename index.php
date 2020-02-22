@@ -130,12 +130,12 @@ id, title, description FROM article LEFT JOIN art_cat ON article.id = art_id
     </ul>
     <div>
         <form action="index.php" method="post">
-            <?= $cat_array[0];?><br>
-            <?= $cat_array[1];?><br>
-            <?= $cat_array[2];?><br>
+            <?= $cat_array[0] ?? '';?><br>
+            <?= $cat_array[1] ?? '';?><br>
+            <?= $cat_array[2] ?? '';?><br>
             <input type="submit">
         </form>
-        <?= $list3;?>
+        <?= $list3 ?? '';?>
     </div>
 </div>
 </body>
