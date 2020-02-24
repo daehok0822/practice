@@ -1,7 +1,6 @@
 <?php
 session_start();
 include 'connect.php';
-var_dump($_POST['id2']);
 if($_POST['id2']){
     $sql = "
   UPDATE article
@@ -11,7 +10,7 @@ if($_POST['id2']){
     WHERE
       id = {$_POST['id2']}
 ";
-} else{
+}else{
     $sql = "
       INSERT INTO article
         (user_id, title, description, pub_date)
@@ -29,12 +28,24 @@ if($result === false){
     error_log(mysqli_error($conn));
 } else {
     echo '성공했습니다. <a href="index.php">돌아가기</a>';
-    $last_uid = mysqli_insert_id($conn);
-    foreach ($_POST['cat_id'] as $item) {
-        $sql = "
-      INSERT INTO art_cat(art_id, cat_id)
-      VALUES($last_uid, $item)";
+
+    if ($_POST['id2']) {
+//        foreach ($_POST['cat_id'] as $item) {
+//            $sql = "UPDATE art_cat SET cat_id ='$item' where art_id = {$_POST['id2']}";
+//            $result = mysqli_query($conn, $sql);
+//        }
+        $sql = "DELETE FROM art_cat WHERE art_id = {$_POST['id2']}";
         $result = mysqli_query($conn, $sql);
+        foreach ($_POST['cat_id'] as $item) {
+            $sql = "INSERT INTO art_cat(art_id, cat_id) VALUES({$_POST['id2']}, $item)";
+            $result = mysqli_query($conn, $sql);
+        }
+    } else {
+        $last_uid = mysqli_insert_id($conn);
+        foreach ($_POST['cat_id'] as $item) {
+            $sql = "INSERT INTO art_cat(art_id, cat_id) VALUES($last_uid, $item)";
+            $result = mysqli_query($conn, $sql);
+        }
     }
 
 }

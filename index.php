@@ -9,12 +9,12 @@ if (isset($_SESSION['is_login'])) {
 
 if (isset($_SESSION['is_login'])) {
     $products = array('<a href="./logout.php">로그아웃 </a>', '<style>#login{
-            grid-template-columns: 1fr 300px;
+            grid-template-columns: 1fr 150px;
             }</style>');
 } else {
     $products = array('<style>#login{
-            grid-template-columns: 1fr 350px;
-            }</style>', '</a><a href="/loginform.php">로그인 </a>', '<a href="/form.php">회원가입 ');
+            grid-template-columns: 1fr 220px;
+            }</style>', '</a><a href="/loginform.php">로그인 </a>', '<a href="/resisterform.php">회원가입 ');
 }
 
 $sql = "SELECT * FROM category where parant_id = 0";
@@ -57,7 +57,11 @@ id, title, description FROM article LEFT JOIN art_cat ON article.id = art_id
     $result = mysqli_query($conn, $sql);
     $list3 = '';
     while ($row = mysqli_fetch_array($result)) {
-        $list3 .= '<p><h2>'.$row['title']."</h2><div class='articlefix'><a href='create.php?id2={$row['id']}'>글수정</a></div>". $row['description'].'</p>';
+        $list3 .= '<p><h2>'.$row['title'].'</h2><div class="articlefix"><a href="create.php?id2='.$row['id'].'">수정</a>
+<form action="delete.php" method="post">
+      <input type="hidden" name="id2" value="'.$row['id'].'">
+      <input type="submit" value="삭제">
+    </form></div>'. $row['description'].'</p>';
     }
 }
 ?>
@@ -116,8 +120,6 @@ id, title, description FROM article LEFT JOIN art_cat ON article.id = art_id
     </p>
     <p>
         <a href="./create.php">글쓰기</a>
-        <a href="./update.php">글수정</a>
-        <a href="./logout.php">글삭제</a>
         <?php foreach ($products as $item) {
             echo $item . " ";
         }; ?>

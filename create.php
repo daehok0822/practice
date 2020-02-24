@@ -65,7 +65,7 @@ if(isset($_GET['id2'])){ //글수정이라면
     $sql = "SELECT title, description FROM article where id = {$_GET['id2']}"; //수정하려는 글을 가져옴
     $result = mysqli_query($conn, $sql);
     $row = mysqli_fetch_array($result);
-    $smallcatSellect ='<p><select name="cat_id[]" multiple="multiple">
+    $smallcatSellect ='<p><select id="small_cat" name="cat_id[]" multiple="multiple">
             <option value="0">- Select -</option>
             '.$list.'
         </select></p>
@@ -103,13 +103,12 @@ if(isset($_GET['id2'])){ //글수정이라면
     <meta charset="utf-8">
 </head>
 <body>
+<h2><a href="index.php">게임 사이트</a></h2>
 <form action="process_create.php" method="POST">
-
 <select id="big_cat">
     <option value="0">- Select -</option>
     <?= $bigcatSellect;?>
 </select>
-
     <?= $smallcatSellect; ?>
     <p><input type="submit"></p>
 </form>
