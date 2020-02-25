@@ -10,6 +10,5 @@
     <p><input type="text" name="password"></p>
     <p><input type="submit"></p>
 </form>
-
 </body>
 </html>

@@ -24,28 +24,38 @@ while ($row = mysqli_fetch_array($result)) {
     $list .= "<li><a href='index.php?id={$row['id']}'>{$row['name']}</a></li>";
 }
 
-if(isset($_GET['id'])){
+include 'paging.php';
+
+
+if (isset($_GET['id'])) {
 
 //    $where = "where parant_id = {$_GET['id']}";
     $cat_array = array();
-    $cat_message = array('테마','게임 디자인','게임 플레이');
-    for ($i = 0; $i < 3; $i++){
+    $cat_message = array('테마', '게임 디자인', '게임 플레이');
+    for ($i = 0; $i < 3; $i++) {
         $sql = "SELECT * FROM category where parant_id = {$_GET['id']} and division = $i+1";
         $result = mysqli_query($conn, $sql);
         $list2 = '';
         while ($row = mysqli_fetch_array($result)) {
-            $list2 .= '<input type="checkbox" name="checkbox[]" value="'.$row['id'].'" >'.$row['name'];
+            $list2 .= '<input type="checkbox" name="checkbox[]" value="' . $row['id'] . '" >' . $row['name'];
         }
-        $cat_array[$i] = $cat_message[$i].'<br>'.$list2;
+        $cat_array[$i] = $cat_message[$i] . '<br>' . $list2;
+    }
+
+    $sql = "SELECT * from article order by id desc" . $sqlLimit;
+    $result = mysqli_query($conn, $sql);
+    $list3 = '';
+    while ($row = mysqli_fetch_array($result)) {
+        $list3 .= '<p><h2>' . $row['title'] . '</h2><div class="articlefix"><a href="create.php?id2=' . $row['id'] . '">수정</a>
+<form action="delete.php" method="post">
+      <input type="hidden" name="id2" value="' . $row['id'] . '">
+      <input type="submit" value="삭제">
+    </form></div>' . $row['description'] . '</p>';
     }
 
 
-
-
-}
-if(isset($_POST['checkbox'])) {
-    $sql = "SELECT article.
-id, title, description FROM article LEFT JOIN art_cat ON article.id = art_id
+} else if (isset($_POST['checkbox'])) {
+    $sql = "SELECT article.id, title, description FROM article LEFT JOIN art_cat ON article.id = art_id
         LEFT JOIN category ON cat_id = category.id ";
     $where = " where 1=1 ";
 
@@ -53,17 +63,30 @@ id, title, description FROM article LEFT JOIN art_cat ON article.id = art_id
         $where .= " and category.id = {$_POST['checkbox'][$i]}";
     }
 
-    $sql .= $where;
+    $sql .= $where . " order by article.id desc" . $sqlLimit;
     $result = mysqli_query($conn, $sql);
     $list3 = '';
     while ($row = mysqli_fetch_array($result)) {
-        $list3 .= '<p><h2>'.$row['title'].'</h2><div class="articlefix"><a href="create.php?id2='.$row['id'].'">수정</a>
+        $list3 .= '<p><h2>' . $row['title'] . '</h2><div class="articlefix"><a href="create.php?id2=' . $row['id'] . '">수정</a>
 <form action="delete.php" method="post">
-      <input type="hidden" name="id2" value="'.$row['id'].'">
+      <input type="hidden" name="id2" value="' . $row['id'] . '">
       <input type="submit" value="삭제">
-    </form></div>'. $row['description'].'</p>';
+    </form></div>' . $row['description'] . '</p>';
     }
+
+} else {
+    $list3 = '<h2>이곳은 게임 사이트입니다</h2>';
 }
+
+
+
+
+
+
+
+
+
+
 ?>
 
 
@@ -84,7 +107,7 @@ id, title, description FROM article LEFT JOIN art_cat ON article.id = art_id
             text-decoration: none;
             color: black;
         }
-        ul {
+        #list_border {
             border-right: 2px solid gray;
             width: 100px;
             height: 1000px;
@@ -111,6 +134,16 @@ id, title, description FROM article LEFT JOIN art_cat ON article.id = art_id
             text-align:right;
         }
 
+        .paging ul{
+            list-style:none;
+            text-align:center;
+        }
+        .paging li{
+            display: inline;
+        }
+
+
+
     </style>
 </head>
 <body>
@@ -127,7 +160,7 @@ id, title, description FROM article LEFT JOIN art_cat ON article.id = art_id
 </div>
 <h1><a href="index.php">게임 사이트</a></h1>
 <div id="page">
-    <ul>
+    <ul id="list_border">
         <?= $list; ?>
     </ul>
     <div>
@@ -138,7 +171,11 @@ id, title, description FROM article LEFT JOIN art_cat ON article.id = art_id
             <input type="submit">
         </form>
         <?= $list3 ?? '';?>
+
     </div>
+</div>
+<div class="paging">
+    <?php echo $paging ?>
 </div>
 </body>
 </html>

@@ -18,6 +18,7 @@ if (empty($_SESSION['is_login'])) {
 $bigcatSellect = '';
 $sql = "SELECT * FROM category where parant_id = 0"; //아이디 값이 0번인 대분류
 $result_category = mysqli_query($conn,$sql);
+
 if(isset($_GET['id2'])){ //글수정이라면
 /*    ?>
 <input type="ddd" value="<?=$row['title']?>">
@@ -53,7 +54,6 @@ if(isset($_GET['id2'])){ //글수정이라면
 
 
     while($row = mysqli_fetch_assoc($result_category) ) {
-
         if ($big_cat === $row['id']) {
             $bigcatSellect.= "<option value='" . $row['id'] . "' selected='selected'>" . $row['name'] . "</option>";
         } else {
@@ -75,9 +75,8 @@ if(isset($_GET['id2'])){ //글수정이라면
 
 
 } else {
-
     while($row = mysqli_fetch_assoc($result_category) ) {
-        $bigcatSellect.= "<option value='" . $row['id'] . ">" . $row['name'] . "</option>";
+        $bigcatSellect.= "<option value='" . $row['id'] . "'>" . $row['name'] . "</option>";
     }
 
     $smallcatSellect ='<p><select id="small_cat" name="cat_id[]" multiple="multiple">
@@ -104,6 +103,7 @@ if(isset($_GET['id2'])){ //글수정이라면
 </head>
 <body>
 <h2><a href="index.php">게임 사이트</a></h2>
+
 <form action="process_create.php" method="POST">
 <select id="big_cat">
     <option value="0">- Select -</option>

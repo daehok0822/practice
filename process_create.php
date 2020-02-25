@@ -1,7 +1,7 @@
 <?php
 session_start();
 include 'connect.php';
-if($_POST['id2']){
+if(isset($_POST['id2'])){
     $sql = "
   UPDATE article
     SET
@@ -29,7 +29,7 @@ if($result === false){
 } else {
     echo '성공했습니다. <a href="index.php">돌아가기</a>';
 
-    if ($_POST['id2']) {
+    if(isset($_POST['id2'])) {
 //        foreach ($_POST['cat_id'] as $item) {
 //            $sql = "UPDATE art_cat SET cat_id ='$item' where art_id = {$_POST['id2']}";
 //            $result = mysqli_query($conn, $sql);
