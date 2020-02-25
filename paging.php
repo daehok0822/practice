@@ -1,6 +1,14 @@
 <?php
 include 'connect.php';
 
+
+$checkboxUrl = '';
+if (isset($_GET['checkbox']) && is_array($_GET['checkbox'])) {
+
+    foreach ($_GET['checkbox'] as $item) {
+        $checkboxUrl .= '&checkbox[]=' . $item;
+    }
+}
 if(isset($_GET['page'])) {
     $page = $_GET['page'];
 } else {
@@ -46,30 +54,32 @@ $nextPage = (($currentSection + 1) * $oneSection) - ($oneSection - 1); //다음 
 $paging = '<ul>'; // 페이징을 저장할 변수
 //첫 페이지가 아니라면 처음 버튼을 생성
 if($page != 1) {
-    $paging .= '<li class="page page_start"><a href="./index.php?page=1">처음</a></li>';
+    $paging .= '<li class="page page_start"><a href="./index.php?id='.$_GET['id'] . $checkboxUrl.'&page=1">처음</a></li>';
 }
 
 //첫 섹션이 아니라면 이전 버튼을 생성
 if($currentSection != 1) {
-    $paging .= '<li class="page page_prev"><a href="./index.php?page='.$prevPage.'">&nbsp;이전</a></li>';
+    $paging .= '<li class="page page_prev"><a href="./index.php?id='.$_GET['id'] . $checkboxUrl.'&page='.$prevPage.'">&nbsp;이전</a></li>';
 }
 for ($i = $firstPage; $i <= $lastPage; $i++) {
     if ($i == $page) {
         $paging .= '<li class="page current">&nbsp;'.$i.'</li>';
     } else {
-        $paging .= '<li class="page"><a href="./index.php?page='.$i.'">&nbsp;'.$i.'</a></li>';
+        $paging .= '<li class="page"><a href="./index.php?id='.$_GET['id'].$checkboxUrl.'&page='.$i.'">&nbsp;'.$i.'</a></li>';
     }
 }
 //마지막 섹션이 아니라면 다음 버튼을 생성
 if($currentSection != $allSection) {
-    $paging .= '<li class="page page_next"><a href="./index.php?page='.$nextPage.'">&nbsp;다음</a></li>';
+    $paging .= '<li class="page page_next"><a href="./index.php?id='.$_GET['id'].$checkboxUrl.'&page='.$nextPage.'">&nbsp;다음</a></li>';
 }
 //마지막 페이지가 아니라면 끝 버튼을 생성
 
 if($page != $allPage) {
-    $paging .= '<li class="page page_end"><a href="./index.php?page='.$allPage.'">&nbsp;끝</a></li>';
+    $paging .= '<li class="page page_end"><a href="./index.php?id='.$_GET['id'].$checkboxUrl.'&page='.$allPage.'">&nbsp;끝</a></li>';
 }
 $paging .= '</ul>';
 
 $currentLimit = ($onePage * $page) - $onePage; //몇 번째의 글부터 가져오는지
 $sqlLimit = ' limit ' . $currentLimit . ', ' . $onePage; //limit sql 구문
+    ?>
+

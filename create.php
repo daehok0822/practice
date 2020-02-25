@@ -39,7 +39,7 @@ if(isset($_GET['id2'])){ //글수정이라면
     $result = mysqli_query($conn,$sql);
 //    $users_arr = array();
     $list = '';
-    while($row = mysqli_fetch_array($result) ){
+    while($row = mysqli_fetch_array($result)){
 //        $users_arr[] = array("id" => $id, "name" => $name);
 
         $bool = true;
@@ -105,10 +105,10 @@ if(isset($_GET['id2'])){ //글수정이라면
 <h2><a href="index.php">게임 사이트</a></h2>
 
 <form action="process_create.php" method="POST">
-<select id="big_cat">
-    <option value="0">- Select -</option>
-    <?= $bigcatSellect;?>
-</select>
+    <select id="big_cat">
+        <option value="0">- Select -</option>
+        <?= $bigcatSellect; ?>
+    </select>
     <?= $smallcatSellect; ?>
     <p><input type="submit"></p>
 </form>
